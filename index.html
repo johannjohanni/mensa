@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mensa Finkenau</title>
+  <link rel="stylesheet" href="styles.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+</head>
+<body>
+
+    <h1 class="spin-text">mensa finkenau</h1>
+
+
+  <div id="loading">⏳ Lade aktuelle Gerichte...</div>
+  <ul id="gerichte"></ul>
+
+  <h1 class="marquee">
+  <span>www.was-gibts-heute-zu-essen.de</span>
+    </h1>
+
+<div id="slideshow" class="slideshow">
+  <img id="slideshow-image" src="images/image1.jpg" alt="Slideshow Bild">
+</div>
+
+  <script>
+const targetURL = "https://www.stwhh.de/gastronomie/mensen-cafes-weiteres/mensa/mensa-finkenau";
+const corsProxy = "https://corsproxy.io/?";
+
+async function ladeGerichte() {
+  try {
+    const response = await fetch(corsProxy + encodeURIComponent(targetURL));
+    const html = await response.text();
+    const doc = new DOMParser().parseFromString(html, "text/html");
+
+    const meals = doc.querySelectorAll(".singlemeal");
+
+    const list = document.getElementById("gerichte");
+    const loading = document.getElementById("loading");
+    loading.style.display = "none";
+
+    if (meals.length === 0) {
+      list.innerHTML = "<li>⚠️ Keine Gerichte gefunden – vielleicht hat die Mensa geschlossen?</li>";
+      return;
+    }
+
+    meals.forEach(meal => {
+      const titleEl = meal.querySelector("h5.singlemeal__headline");
+      const infoEls = meal.querySelectorAll("dl.dlist dd.dlist__item span.singlemeal__info--semibold");
+
+
+      const title = titleEl ? titleEl.textContent.trim() : "Unbekanntes Gericht";
+      const infos = [...infoEls].map(span => span.textContent.trim());
+
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <div class="gericht-name">${title}</div>
+        <div class="gericht-info">${infos.join(" • ")}</div>
+      `;
+      list.appendChild(li);
+    });
+
+  } catch (error) {
+    console.error(error);
+    document.getElementById("loading").textContent = "Fehler beim Laden der Gerichte 😢";
+  }
+}
+
+ladeGerichte();
+
+
+const imageCount = 7; // you have 7 images
+  const imageFolder = "images/";
+  const imagePrefix = "image";
+  const imageExtension = ".jpeg"; // change to .png if needed
+
+  let currentImage = 1;
+const imgElement = document.getElementById("slideshow-image");
+
+function changeImage() {
+  currentImage = (currentImage % imageCount) + 1;
+  imgElement.src = `${imageFolder}${imagePrefix}${currentImage}${imageExtension}`;
+}
+
+// Start the slideshow immediately
+imgElement.src = `${imageFolder}${imagePrefix}${currentImage}${imageExtension}`;
+imgElement.classList.add("active");
+
+setInterval(changeImage, 6000); // change every 6 seconds
+
+  </script>
+</body>
+</html>
