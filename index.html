@@ -1,94 +1,108 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mensa Finkenau</title>
-  <link rel="stylesheet" href="styles.css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mensa Finkenau</title>
+    <link rel="stylesheet" href="styles.css" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+  </head>
+  <body>
 
-</head>
-<body>
+  <!-- Hallo!  -->
+  <!-- Was machst du hier?  -->
+  <!-- Diese Website ist nun wirklich nicht so spannend... Ein Javascript checkt mit Hilfe von corsproxy.io die Webseite des Studierendenwerks und kopiert die Div-Boxen mit den Gerichten und Preisen. Das ist auch schon alles. Geschrieben wurde es natürlich von ChatGPT... -->
+  <!-- Naja, nun gibt es diese Seite und wir müssen endlich nicht mehr das Webdesign des Studierendenwerkes ertragen... -->
+  <!-- Falls du weitere Ideen hast und diese Website erweitern möchtest (zum Beispiel mit einer Cookie-Cam, die das Cookie Glas im Cafe überträgt, damit wir immer wissen, ob noch einer da ist), feel free -->
+  <!-- Guten Appetit! -->
+
 
     <h1>mensa finkenau</h1>
 
+    <div id="loading">⏳ aktuelle gerichte werden geladen...</div>
 
-  <div id="loading">⏳ Lade aktuelle Gerichte...</div>
-  <ul id="gerichte"></ul>
+    <ul id="gerichte"></ul>
 
-  <h1 class="marquee">
-  <span>www.was-gibts-heute-zu-essen.de</span>
+    <h1 class="marquee">
+      <span>www.was-gibts-heute-zu-essen.de</span>
     </h1>
 
-<div id="slideshow" class="slideshow">
-  <img id="slideshow-image" src="images/image1.jpg" alt="Slideshow Bild">
-</div>
+    <div id="slideshow" class="slideshow">
+      <img id="slideshow-image" src="images/image1.jpg" alt="Slideshow Bild" />
+    </div>
 
-  <script>
-const targetURL = "https://www.stwhh.de/gastronomie/mensen-cafes-weiteres/mensa/mensa-finkenau";
-const corsProxy = "https://corsproxy.io/?";
+    <script>
+      const targetURL =
+        "https://www.stwhh.de/gastronomie/mensen-cafes-weiteres/mensa/mensa-finkenau";
+      const corsProxy = "https://corsproxy.io/?";
 
-async function ladeGerichte() {
-  try {
-    const response = await fetch(corsProxy + encodeURIComponent(targetURL));
-    const html = await response.text();
-    const doc = new DOMParser().parseFromString(html, "text/html");
+      async function ladeGerichte() {
+        try {
+          const response = await fetch(
+            corsProxy + encodeURIComponent(targetURL)
+          );
+          const html = await response.text();
+          const doc = new DOMParser().parseFromString(html, "text/html");
 
-    const meals = doc.querySelectorAll(".singlemeal");
+          const meals = doc.querySelectorAll(".singlemeal");
 
-    const list = document.getElementById("gerichte");
-    const loading = document.getElementById("loading");
-    loading.style.display = "none";
+          const list = document.getElementById("gerichte");
+          const loading = document.getElementById("loading");
+          loading.style.display = "none";
 
-    if (meals.length === 0) {
-      list.innerHTML = "<li>⚠️ Keine Gerichte gefunden – vielleicht hat die Mensa geschlossen?</li>";
-      return;
-    }
+          if (meals.length === 0) {
+            list.innerHTML =
+              "<li>⚠️ Keine Gerichte gefunden – vielleicht hat die Mensa geschlossen?</li>";
+            return;
+          }
 
-    meals.forEach(meal => {
-      const titleEl = meal.querySelector("h5.singlemeal__headline");
-      const infoEls = meal.querySelectorAll("dl.dlist dd.dlist__item span.singlemeal__info--semibold");
+          meals.forEach((meal) => {
+            const titleEl = meal.querySelector("h5.singlemeal__headline");
+            const infoEls = meal.querySelectorAll(
+              "dl.dlist dd.dlist__item span.singlemeal__info--semibold"
+            );
 
+            const title = titleEl
+              ? titleEl.textContent.trim()
+              : "Unbekanntes Gericht";
+            const infos = [...infoEls].map((span) => span.textContent.trim());
 
-      const title = titleEl ? titleEl.textContent.trim() : "Unbekanntes Gericht";
-      const infos = [...infoEls].map(span => span.textContent.trim());
-
-      const li = document.createElement("li");
-      li.innerHTML = `
+            const li = document.createElement("li");
+            li.innerHTML = `
         <div class="gericht-name">${title}</div>
         <div class="gericht-info">${infos.join(" • ")}</div>
       `;
-      list.appendChild(li);
-    });
+            list.appendChild(li);
+          });
+        } catch (error) {
+          console.error(error);
+          document.getElementById("loading").textContent =
+            "Fehler beim Laden der Gerichte 😢";
+        }
+      }
 
-  } catch (error) {
-    console.error(error);
-    document.getElementById("loading").textContent = "Fehler beim Laden der Gerichte 😢";
-  }
-}
+      ladeGerichte();
 
-ladeGerichte();
+      const imageCount = 7;
+      const imageFolder = "images/";
+      const imagePrefix = "image";
+      const imageExtension = ".jpeg";
 
+      let currentImage = 1;
+      const imgElement = document.getElementById("slideshow-image");
 
-const imageCount = 7; // you have 7 images
-  const imageFolder = "images/";
-  const imagePrefix = "image";
-  const imageExtension = ".jpeg"; // change to .png if needed
+      function changeImage() {
+        currentImage = (currentImage % imageCount) + 1;
+        imgElement.src = `${imageFolder}${imagePrefix}${currentImage}${imageExtension}`;
+      }
 
-  let currentImage = 1;
-const imgElement = document.getElementById("slideshow-image");
+      imgElement.src = `${imageFolder}${imagePrefix}${currentImage}${imageExtension}`;
+      imgElement.classList.add("active");
 
-function changeImage() {
-  currentImage = (currentImage % imageCount) + 1;
-  imgElement.src = `${imageFolder}${imagePrefix}${currentImage}${imageExtension}`;
-}
-
-// Start the slideshow immediately
-imgElement.src = `${imageFolder}${imagePrefix}${currentImage}${imageExtension}`;
-imgElement.classList.add("active");
-
-setInterval(changeImage, 6000); // change every 6 seconds
-
-  </script>
-</body>
+      setInterval(changeImage, 6000);
+    </script>
+  </body>
 </html>

@@ -1,60 +1,59 @@
 @font-face {
-    font-family: "arial-rounded";
-    src: url(fonts/Arial-Rounded-Bold.ttf) format(truetype);
+  font-family: "arial-rounded";
+  src: url(fonts/Arial-Rounded-Bold.ttf) format(truetype);
 }
 
 body {
-      font-family: "arial-rounded";
-      background: #000000;
-      color: #ffffff;
-      margin: 0;
-      margin-inline: auto;
-      overflow-x: hidden;
-    }
-    h1 {
-      text-align: center;
-      margin: 10px 0 10px 0;
-      padding: 0;
-      font-size:58px;
-      line-height: 53px;
-    mix-blend-mode: difference;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-        display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 10px;
-
-    }
-    li {
-      background: rgb(0, 0, 0);
-      color: white;
-      text-transform: lowercase;
-    font-size: 25px;
-      text-align: center;
-      border-radius: 30px;
-      width: 100%;
-      max-width: 800px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      padding: 1rem;
-      margin: 0.5rem 0;
-  box-sizing: border-box; 
-    }
-.gericht-info{
-    color: #aa03f7;
+  font-family: "arial-rounded";
+  background: #000000;
+  color: #ffffff;
+  margin: 0;
+  margin-inline: auto;
+  overflow-x: hidden;
+}
+h1 {
+  text-align: center;
+  margin: 10px 0 10px 0;
+  padding: 0;
+  font-size: 58px;
+  line-height: 53px;
+  mix-blend-mode: difference;
+}
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 10px;
+}
+li {
+  background: rgb(0, 0, 0);
+  color: white;
+  text-transform: lowercase;
+  font-size: 25px;
+  text-align: center;
+  border-radius: 30px;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  margin: 0.5rem 0;
+  box-sizing: border-box;
+}
+.gericht-info {
+  color: #aa03f7;
 }
 
-    footer {
-      text-align: center;
-      margin-top: 2rem;
-      font-size: 0.9em;
-      color: #666;
-    }
+footer {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.9em;
+  color: #666;
+}
 
-    .marquee {
+.marquee {
   width: 100%;
   overflow: hidden;
   white-space: nowrap;
@@ -64,8 +63,8 @@ body {
 
 .marquee span {
   display: inline-block;
-      font-size: 58px;
-  padding-left: 100%; /* start off screen */
+  font-size: 58px;
+  padding-left: 100%;
   animation: marquee 12s linear infinite;
 }
 
@@ -78,11 +77,10 @@ body {
   }
 }
 
-
 .slideshow {
-position: fixed;
-top: 0;
-left: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100dvh;
   overflow: hidden;
