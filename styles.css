@@ -11,13 +11,22 @@ body {
   margin-inline: auto;
   overflow-x: hidden;
 }
+#loading{
+  position: fixed;
+  width: 100vw;
+  text-align: center;
+  top: 45%;
+  font-size: 60px;
+}
 h1 {
   text-align: center;
-  margin: 10px 0 10px 0;
+  margin: 10px 0 30px 0;
   padding: 0;
   font-size: 58px;
   line-height: 53px;
   mix-blend-mode: difference;
+  color: #ffffff;
+  text-shadow: -1.5px -1.5px 0 #aa03f7, 1.5px -1.5px 0 #aa03f7, -1.5px 1.5px 0 #aa03f7, 1.5px 1.5px 0 #aa03f7;
 }
 ul {
   list-style: none;
@@ -26,7 +35,7 @@ ul {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 10px;
+  padding-bottom: 80px;
 }
 li {
   background: rgb(0, 0, 0);
@@ -34,16 +43,17 @@ li {
   text-transform: lowercase;
   font-size: 25px;
   text-align: center;
-  border-radius: 30px;
+  border-radius: 35px;
   width: 100%;
   max-width: 800px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 1rem;
-  margin: 0.5rem 0;
+  margin: 0.5rem 0 0 0;
   box-sizing: border-box;
 }
 .gericht-info {
+  margin-top: 0.33em;
   color: #aa03f7;
+  font-size: 24px;
 }
 
 footer {
@@ -54,17 +64,21 @@ footer {
 }
 
 .marquee {
+  position: fixed;
+  top: 92dvh;
   width: 100%;
   overflow: hidden;
   white-space: nowrap;
   box-sizing: border-box;
-  padding: 0 0 20px 0;
+  padding: 0;
+  margin: 0;
 }
 
 .marquee span {
   display: inline-block;
   font-size: 58px;
   padding-left: 100%;
+  height: 70px;
   animation: marquee 12s linear infinite;
 }
 
@@ -88,16 +102,32 @@ footer {
 }
 
 .slideshow img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   opacity: 0;
-  transition: opacity 1s ease-in-out;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  transition: opacity 2s ease-in-out;
 }
 
 .slideshow img.active {
   opacity: 1;
 }
+
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+

@@ -20,7 +20,7 @@
 
     <h1>mensa finkenau</h1>
 
-    <div id="loading">⏳ aktuelle gerichte werden geladen...</div>
+    <div id="loading"></div>
 
     <ul id="gerichte"></ul>
 
@@ -29,8 +29,10 @@
     </h1>
 
     <div id="slideshow" class="slideshow">
-      <img id="slideshow-image" src="images/image1.jpg" alt="Slideshow Bild" />
+      <img id="imgA" class="active" src="images/image1.jpeg">
+      <img id="imgB" src="images/image2.jpeg">
     </div>
+
 
     <script>
       const targetURL =
@@ -57,30 +59,33 @@
             return;
           }
 
-          meals.forEach((meal) => {
-            const titleEl = meal.querySelector("h5.singlemeal__headline");
-            const infoEls = meal.querySelectorAll(
-              "dl.dlist dd.dlist__item span.singlemeal__info--semibold"
-            );
+         meals.forEach((meal, index) => {
+          const titleEl = meal.querySelector("h5.singlemeal__headline");
+          const infoEls = meal.querySelectorAll(
+            "dl.dlist dd.dlist__item span.singlemeal__info--semibold"
+          );
 
-            let title = titleEl
-              ? titleEl.textContent.trim()
-              : "Unbekanntes Gericht";
-            let infos = [...infoEls].map((span) => span.textContent.trim());
+          let title = titleEl ? titleEl.textContent.trim() : "Unbekanntes Gericht";
+          let infos = [...infoEls].map((span) => span.textContent.trim());
 
-            const removeParentheses = (text) =>
-              text.replace(/\s*\([^)]*\)\s*/g, "").trim();
+          const removeParentheses = (text) =>
+            text.replace(/\s*\([^)]*\)\s*/g, "").trim();
 
-            title = removeParentheses(title);
-            infos = infos.map(removeParentheses);
+          title = removeParentheses(title);
+          infos = infos.map(removeParentheses);
 
-            const li = document.createElement("li");
-            li.innerHTML = `
-        <div class="gericht-name">${title}</div>
-        <div class="gericht-info">${infos.join(" • ")}</div>
-      `;
-            list.appendChild(li);
-          });
+          const li = document.createElement("li");
+          li.classList.add("fade-in");
+
+          li.style.animationDelay = `${index * 0.15}s`;
+
+          li.innerHTML = `
+            <div class="gericht-name">${title}</div>
+            <div class="gericht-info">${infos.join(" • ")}</div>
+          `;
+          list.appendChild(li);
+        });
+
         } catch (error) {
           console.error(error);
           document.getElementById("loading").textContent =
@@ -94,19 +99,32 @@
       const imageFolder = "images/";
       const imagePrefix = "image";
       const imageExtension = ".jpeg";
-
+          
       let currentImage = 1;
-      const imgElement = document.getElementById("slideshow-image");
-
+      let showingA = true;
+          
+      const imgA = document.getElementById("imgA");
+      const imgB = document.getElementById("imgB");
+          
       function changeImage() {
         currentImage = (currentImage % imageCount) + 1;
-        imgElement.src = `${imageFolder}${imagePrefix}${currentImage}${imageExtension}`;
+        const nextSrc = `${imageFolder}${imagePrefix}${currentImage}${imageExtension}`;
+      
+        if (showingA) {
+          imgB.src = nextSrc;
+          imgA.classList.remove("active");
+          imgB.classList.add("active");
+        } else {
+          imgA.src = nextSrc;
+          imgB.classList.remove("active");
+          imgA.classList.add("active");
+        }
+      
+        showingA = !showingA;
       }
-
-      imgElement.src = `${imageFolder}${imagePrefix}${currentImage}${imageExtension}`;
-      imgElement.classList.add("active");
-
+      
       setInterval(changeImage, 6000);
+
     </script>
   </body>
 </html>
